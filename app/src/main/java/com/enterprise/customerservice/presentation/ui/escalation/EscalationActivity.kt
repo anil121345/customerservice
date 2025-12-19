@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.enterprise.customerservice.CustomerServiceApplication
 import com.enterprise.customerservice.databinding.ActivityEscalationBinding
 import com.enterprise.customerservice.presentation.viewmodels.EscalationViewModel
-import com.enterprise.customerservice.presentation.viewmodels.ManageEscalationsUseCase
+import com.enterprise.customerservice.domain.usecases.ManageEscalationsUseCase
 
 /**
  * Activity for managing escalated queries

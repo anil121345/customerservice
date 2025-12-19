@@ -88,8 +88,11 @@ class ResponseGenerationService {
         // Mock response generation
         val topDoc = retrievedDocuments.firstOrNull()
         
+        // Sanitize query for safe display
+        val sanitizedQuery = sanitizeForDisplay(query)
+        
         return if (topDoc != null && topDoc.similarityScore > 0.7f) {
-            """Based on our knowledge base, here's what I found regarding your query about "${query}":
+            """Based on our knowledge base, here's what I found regarding your query about "$sanitizedQuery":
                 
 ${topDoc.document.content.take(500)}
 
@@ -97,7 +100,7 @@ This information is from our ${topDoc.document.category} documentation. ${if (re
 
 Is there anything specific you'd like me to clarify?"""
         } else {
-            """I found some information that might help with your query about "${query}". 
+            """I found some information that might help with your query about "$sanitizedQuery". 
 
 Based on our documentation in ${topDoc?.document?.category ?: "various categories"}, here are some relevant points:
 
@@ -140,12 +143,26 @@ However, I recommend speaking with a support specialist for a more detailed answ
     }
     
     /**
+     * Sanitize query text for safe display in responses
+     */
+    private fun sanitizeForDisplay(text: String): String {
+        return text
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+            .replace("\"", "&quot;")
+            .replace("'", "&#x27;")
+            .trim()
+            .take(200) // Limit length
+    }
+    
+    /**
      * Generate a fallback response when no documents are retrieved
      */
     private fun generateFallbackResponse(query: String, queryId: Long): AIResponse {
+        val sanitizedQuery = sanitizeForDisplay(query)
         return AIResponse(
             queryId = queryId,
-            responseText = """I apologize, but I couldn't find specific information in our knowledge base to answer your query about "${query}". 
+            responseText = """I apologize, but I couldn't find specific information in our knowledge base to answer your query about "$sanitizedQuery". 
 
 This might be a unique question or require specialized assistance. I'd recommend speaking with one of our support specialists who can provide you with more detailed help.
 
