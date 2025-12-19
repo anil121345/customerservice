@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AI Customer Service</string>
+    <string name="type_your_question">Type your question…</string>
+    <string name="send">Send</string>
+    <string name="clear_chat">Clear Chat</string>
+    <string name="escalations">Escalations</string>
+    <string name="no_escalations">No pending escalations</string>
+    <string name="assign">Assign</string>
+    <string name="resolve">Resolve</string>
+    <string name="high_confidence">High Confidence</string>
+    <string name="medium_confidence">Medium Confidence</string>
+    <string name="low_confidence">Low Confidence</string>
+    <string name="ai_response">AI Response</string>
+    <string name="customer_query">Customer Query</string>
+    <string name="confidence_score">Confidence Score</string>
+</resources>
