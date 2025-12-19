@@ -8,6 +8,8 @@ import com.enterprise.customerservice.rag.embedding.EmbeddingService
 import com.enterprise.customerservice.rag.generation.ResponseGenerationService
 import com.enterprise.customerservice.rag.retrieval.RetrievalService
 import com.enterprise.customerservice.security.SecurityManager
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 /**
  * Main application class
@@ -58,6 +60,23 @@ class CustomerServiceApplication : Application() {
      */
     private fun initializeSampleKnowledgeBase() {
         // This would be done asynchronously in production
-        // Sample data for demonstration
+        // Launch coroutine to ingest sample documents
+        kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+            try {
+                // Check if knowledge base is empty
+                val existingDocs = database.knowledgeDocumentDao()
+                    .getAllActiveDocuments()
+                    .first()
+                
+                if (existingDocs.isEmpty()) {
+                    // Ingest sample documents
+                    val sampleDocs = com.enterprise.customerservice.data.models.SampleKnowledgeData.getSampleDocuments()
+                    ingestKnowledgeUseCase.ingestBatch(sampleDocs)
+                }
+            } catch (e: Exception) {
+                // Log error in production
+                e.printStackTrace()
+            }
+        }
     }
 }
