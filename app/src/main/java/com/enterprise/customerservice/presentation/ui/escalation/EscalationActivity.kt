@@ -8,7 +8,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enterprise.customerservice.CustomerServiceApplication
 import com.enterprise.customerservice.databinding.ActivityEscalationBinding
+import com.enterprise.customerservice.presentation.viewmodels.AssignmentState
 import com.enterprise.customerservice.presentation.viewmodels.EscalationViewModel
+import com.enterprise.customerservice.presentation.viewmodels.ResolutionState
 import com.enterprise.customerservice.domain.usecases.ManageEscalationsUseCase
 
 /**
@@ -62,10 +64,10 @@ class EscalationActivity : AppCompatActivity() {
         
         viewModel.assignmentState.observe(this) { state ->
             when (state) {
-                is com.enterprise.customerservice.presentation.viewmodels.AssignmentState.Success -> {
+                is AssignmentState.Success -> {
                     Toast.makeText(this, "Escalation assigned successfully", Toast.LENGTH_SHORT).show()
                 }
-                is com.enterprise.customerservice.presentation.viewmodels.AssignmentState.Error -> {
+                is AssignmentState.Error -> {
                     Toast.makeText(this, "Assignment failed: ${state.message}", Toast.LENGTH_SHORT).show()
                 }
                 else -> {}
@@ -74,10 +76,10 @@ class EscalationActivity : AppCompatActivity() {
         
         viewModel.resolutionState.observe(this) { state ->
             when (state) {
-                is com.enterprise.customerservice.presentation.viewmodels.ResolutionState.Success -> {
+                is ResolutionState.Success -> {
                     Toast.makeText(this, "Escalation resolved successfully", Toast.LENGTH_SHORT).show()
                 }
-                is com.enterprise.customerservice.presentation.viewmodels.ResolutionState.Error -> {
+                is ResolutionState.Error -> {
                     Toast.makeText(this, "Resolution failed: ${state.message}", Toast.LENGTH_SHORT).show()
                 }
                 else -> {}

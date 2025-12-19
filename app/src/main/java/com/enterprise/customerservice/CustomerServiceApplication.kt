@@ -8,6 +8,8 @@ import com.enterprise.customerservice.rag.embedding.EmbeddingService
 import com.enterprise.customerservice.rag.generation.ResponseGenerationService
 import com.enterprise.customerservice.rag.retrieval.RetrievalService
 import com.enterprise.customerservice.security.SecurityManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -61,7 +63,7 @@ class CustomerServiceApplication : Application() {
     private fun initializeSampleKnowledgeBase() {
         // This would be done asynchronously in production
         // Launch coroutine to ingest sample documents
-        kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             try {
                 // Check if knowledge base is empty
                 val existingDocs = database.knowledgeDocumentDao()
